@@ -1,0 +1,599 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+/* Margin-bottom for desktop, tablet, and 1064x531 dimension */
+@media (min-width: 768px), (min-width: 1064px) and (max-width: 1064px) and (min-height: 531px) and (max-height: 531px) {
+  .desktop-gap {
+    margin-bottom: 2rem !important;
+  }
+}
+/* Remove gap for 1064x531 dimension */
+@media (min-width: 1064px) and (max-width: 1064px) and (min-height: 531px) and (max-height: 531px) {
+  .no-gap {
+    margin-bottom: 0 !important;
+  }
+}
+
+/* Add this to your src/index.css or a global CSS file */
+@media (min-width: 1064px) and (max-width: 1064px) and (min-height: 531px) and (max-height: 531px) {
+  .custom-1064\:flex {
+    display: flex !important;
+  }
+  .custom-1064\:hidden {
+    display: none !important;
+  }
+}
+
+@media (min-width: 118px) and (max-width: 118px) and (min-height: 6px) and (max-height: 6px) {
+  .custom-118x6\:flex {
+    display: flex !important;
+  }
+  .custom-118x6\:hidden {
+    display: none !important;
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-white text-slate-900;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+.font-segoe-script {
+  font-family: "Segoe Script", "Segoe Script MT", "Segoe Print", "Segoe UI", cursive;
+}
+
+.font-poppins {
+  font-family: "Poppins", "Segoe UI", sans-serif;
+}
+
+.font-inter {
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.font-barlow {
+  font-family: "Barlow", "Segoe UI", sans-serif;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 15s linear infinite;
+}
+
+.pause-animation:hover {
+  animation-play-state: paused;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* Mobile only slider */
+@media (max-width: 639px) {
+
+  .mobile-slider {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+  }
+
+  .mobile-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-slide {
+    min-width: 85%;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+}
+
+
+
+
+@media (max-width: 640px) {
+
+  .animate-news-slide {
+    animation: slideRightToLeft 16s linear infinite;
+  }
+
+  @keyframes slideRightToLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-200%); }
+  }
+
+}
+
+
+/* 
+@media (max-width: 768px) {
+
+  .animate-testimonial-slide {
+    animation: testimonialSlide 14s linear infinite;
+  }
+
+  @keyframes testimonialSlide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-200%); }
+  }
+
+} */
+
+
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+
+
+
+
+/* ===== Floating Icon (Keep This) ===== */
+@keyframes softFloat {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-softFloat {
+  animation: softFloat 3.5s ease-in-out infinite;
+}
+
+
+/* ===== Card Base ===== */
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+  border-radius: 16px;
+  background: white;
+  transition: all 0.4s ease;
+}
+
+/* ===== Green Glow Shadow on Hover ===== */
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 20px 40px rgba(34, 197, 94, 0.25),   /* green outer glow */
+    0 0 0 2px rgba(34, 197, 94, 0.15);     /* soft border glow */
+}
+
+/* ===== Heading Color Change ===== */
+.feature-card h3 {
+  transition: color 0.3s ease;
+}
+
+.feature-card:hover h3 {
+  color: #16a34a; /* Tailwind green-600 */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================= Card Entry Animation ================= */
+@keyframes cardReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(60px) rotate(-2deg) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+.product-card {
+  position: relative;
+  overflow: hidden;
+  animation: cardReveal 0.7s ease forwards;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+/* ================= 3D Hover Tilt Effect ================= */
+.product-card:hover {
+  transform: perspective(800px) rotateX(4deg) rotateY(-4deg) translateY(-10px);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
+}
+
+/* ================= Light Sweep Shine Effect ================= */
+.product-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.6),
+    transparent
+  );
+  transform: skewX(-20deg);
+}
+
+.product-card:hover::before {
+  animation: shineSweep 0.8s ease;
+}
+
+@keyframes shineSweep {
+  0% { left: -100%; }
+  100% { left: 130%; }
+}
+
+/* ================= Image Zoom ================= */
+.product-img {
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-img {
+  transform: scale(1.1) rotate(2deg);
+}
+
+/* ================= Price Pop Animation ================= */
+.product-price {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.product-card:hover .product-price {
+  transform: scale(1.15);
+  color: #007048;
+}
+
+
+/* ================= Slide From Right Animation ================= */
+@keyframes slideFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(120px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.product-card {
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: slideFromRight 10.8s ease forwards;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+/* ================= Stagger Effect ================= */
+.product-card:nth-child(1) { animation-delay: 0.1s; }
+.product-card:nth-child(2) { animation-delay: 0.2s; }
+.product-card:nth-child(3) { animation-delay: 0.3s; }
+.product-card:nth-child(4) { animation-delay: 0.4s; }
+.product-card:nth-child(5) { animation-delay: 0.5s; }
+.product-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* ================= Hover Lift + Green Glow ================= */
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 112, 72, 0.25);
+  background: #e8d8bc;
+}
+
+/* ================= Image Smooth Move ================= */
+.product-card img {
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover img {
+  transform: translateX(8px) scale(1.05);
+}
+
+
+
+
+
+
+@media (width: 1064px) and (height: 532px) {
+  .splash-hand-left {
+    left: 28% !important;
+    right: auto !important;
+  }
+  .splash-hand-img-left {
+    width: 200px !important;
+    max-width: none !important;
+  }
+  .splash-hand-right {
+    right: 28% !important;
+    left: auto !important;
+  }
+  .splash-hand-img-right {
+    width: 180px !important;
+    max-width: none !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+/* ===== Perspective Container ===== */
+
+
+/* ===== Base Card ===== */
+/* .testimonial-card {
+  transition: all 0.6s ease;
+  transform-style: preserve-3d;
+  position: relative;
+} */
+
+/* ===== Default Side Cards ===== */
+/* .testimonial-card:nth-child(1) {
+  transform: rotateY(20deg) scale(0.9);
+  opacity: 0.7;
+}
+
+.testimonial-card:nth-child(3) {
+  transform: rotateY(-20deg) scale(0.9);
+  opacity: 0.7;
+} */
+
+/* ===== Center Card ===== */
+/* .testimonial-card:nth-child(2) {
+  transform: scale(1.05) translateZ(40px);
+  z-index: 10;
+} */
+
+/* ===== Hover Effect (Focus Mode) ===== */
+/* .testimonial-card:hover {
+  transform: rotateY(0deg) scale(1.12) translateY(-15px);
+  opacity: 1 !important;
+  z-index: 20;
+  box-shadow:
+    0 25px 50px rgba(0,0,0,0.25),
+    0 0 40px rgba(255,138,0,0.3);
+} */
+
+
+
+/* ===== Perspective Container ===== */
+.testimonial-perspective{
+  perspective:1200px;
+}
+
+/* ===== Card Base ===== */
+.testimonial-card-3d{
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+/* ===== Default State ===== */
+.testimonial-card-3d{
+  transform: rotateY(0deg) scale(0.95);
+}
+
+/* ===== Hover 3D Lift ===== */
+.testimonial-card-3d:hover{
+  transform: rotateY(8deg) rotateX(4deg) scale(1.05) translateY(-10px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+
+/* ===== Smooth Carousel Depth ===== */
+.testimonial-perspective .testimonial-card-3d{
+  opacity:0.9;
+}
+
+/* ===== Active Center Feel ===== */
+.testimonial-perspective .testimonial-card-3d:hover{
+  opacity:1;
+}
+
+
+
+
+
+/* ===== Perspective on Navbar ===== */
+nav {
+  perspective: 1200px;
+}
+
+/* ===== Overlay ===== */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  transition: background 0.4s ease;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.overlay-show {
+  background: rgba(0,0,0,0.5);
+  pointer-events: auto;
+}
+
+/* ===== Side Menu Base ===== */
+.mobile-side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 260px;
+  background: #005a3c;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transform: translateX(-100%);
+  /* transform-origin: left;  Removed rotation */
+  transition: transform 0.6s ease;
+  z-index: 50;
+  box-shadow: 20px 0 40px #005a3c;
+}
+
+/* ===== When Open ===== */
+.side-open {
+  transform: translateX(0);
+}
+
+/* ===== Menu Items ===== */
+.menu-item {
+  color: white;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+  color: #22c55e;
+  transform: translateX(10px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================= */
+/* MOBILE MENU BUTTON ANIMATION */
+/* ============================= */
+
+.menu-toggle-btn {
+  transition: transform 0.4s ease, color 0.3s ease;
+}
+
+.menu-toggle-btn:hover {
+  /* Removed rotation and yellow color, keep white */
+  transform: scale(1.1);
+  color: white;
+}
+
+/* ============================= */
+/* MOBILE MENU CONTAINER */
+/* ============================= */
+
+.mobile-menu {
+  animation: liquidDrop 0.6s ease forwards;
+  transform-origin: top;
+}
+
+@keyframes liquidDrop {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.6) translateY(-10px);
+    filter: blur(8px);
+  }
+  60% {
+    opacity: 1;
+    transform: scaleY(1.05) translateY(4px);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ============================= */
+/* STAGGER MENU ITEMS */
+/* ============================= */
+
+.menu-item {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideFade 0.5s ease forwards;
+}
+
+.menu-item:nth-child(1) { animation-delay: 0.1s; }
+.menu-item:nth-child(2) { animation-delay: 0.2s; }
+.menu-item:nth-child(3) { animation-delay: 0.3s; }
+.menu-item:nth-child(4) { animation-delay: 0.4s; }
+.menu-item:nth-child(5) { animation-delay: 0.5s; }
+.menu-item:nth-child(6) { animation-delay: 0.6s; }
+.menu-item:nth-child(7) { animation-delay: 0.7s; }
+
+@keyframes slideFade {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ============================= */
+/* HOVER EFFECT */
+/* ============================= */
+
+.menu-item {
+  transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+  transform: translateX(10px);
+  color: white;
+}
