@@ -817,7 +817,7 @@ export default function AccountMobile() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block  font-poppins text-sm mb-1">First Name</label>
+                    <label className="block  font-poppins text-sm mb-1">First Name <span className="text-red-500">*</span></label>
                     <input
                       required
                       className="w-full border  font-poppins rounded px-3 py-2 text-sm"
@@ -826,7 +826,7 @@ export default function AccountMobile() {
                     />
                   </div>
                   <div>
-                    <label className="block  font-poppins text-sm mb-1">Last Name</label>
+                    <label className="block  font-poppins text-sm mb-1">Last Name <span className="text-red-500">*</span></label>
                     <input
                       required
                       className="w-full border  font-poppins rounded px-3 py-2 text-sm"
@@ -837,7 +837,7 @@ export default function AccountMobile() {
                 </div>
 
                 <div>
-                  <label className="block  font-poppins text-sm mb-1">Company</label>
+                  <label className="block  font-poppins text-sm mb-1">Company <span className="text-red-500">*</span></label>
                   <input
                     required
                     className="w-full border  font-poppins rounded px-3 py-2 text-sm"
@@ -847,7 +847,7 @@ export default function AccountMobile() {
                 </div>
 
                 <div>
-                  <label className="block  font-poppins text-sm mb-1">Street Address</label>
+                  <label className="block  font-poppins text-sm mb-1">Street Address <span className="text-red-500">*</span></label>
                   <input
                     required
                     className="w-full  font-poppins border rounded px-3 py-2 text-sm"
@@ -857,7 +857,7 @@ export default function AccountMobile() {
                 </div>
 
                 <div>
-                  <label className="block  font-poppins text-sm mb-1">Address Line 2</label>
+                  <label className="block  font-poppins text-sm mb-1">Address Line 2 <span className="text-red-500">*</span></label>
                   <input
                     required
                     className="w-full  font-poppins border rounded px-3 py-2 text-sm"
@@ -868,7 +868,7 @@ export default function AccountMobile() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block  font-poppins text-sm mb-1">City</label>
+                    <label className="block  font-poppins text-sm mb-1">City <span className="text-red-500">*</span></label>
                     <input
                       required
                       className="w-full border  font-poppins rounded px-3 py-2 text-sm"
@@ -877,7 +877,7 @@ export default function AccountMobile() {
                     />
                   </div>
                   <div>
-                    <label className="block  font-poppins text-sm mb-1">Country / Region</label>
+                    <label className="block  font-poppins text-sm mb-1">Country / Region <span className="text-red-500">*</span></label>
                     <input
                       required
                       className="w-full border  font-poppins rounded px-3 py-2 text-sm"
@@ -886,7 +886,7 @@ export default function AccountMobile() {
                     />
                   </div>
                   <div>
-                    <label className="block  font-poppins text-sm mb-1">State</label>
+                    <label className="block  font-poppins text-sm mb-1">State <span className="text-red-500">*</span></label>
                     <input
                       required
                       className="w-full border  font-poppins rounded px-3 py-2 text-sm"
@@ -895,7 +895,7 @@ export default function AccountMobile() {
                     />
                   </div>
                   <div>
-                    <label className="block font-poppins text-sm mb-1">Zip Code</label>
+                    <label className="block font-poppins text-sm mb-1">Zip Code <span className="text-red-500">*</span></label>
                     <input
                       required
                       className="w-full border rounded px-3 py-2 text-sm"
@@ -907,7 +907,7 @@ export default function AccountMobile() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-poppins text-sm mb-1">Email</label>
+                    <label className="block font-poppins text-sm mb-1">Email <span className="text-red-500">*</span></label>
                     <input
                       required
                       className="w-full border font-poppins rounded px-3 py-2 text-sm"
@@ -916,7 +916,7 @@ export default function AccountMobile() {
                     />
                   </div>
                   <div>
-                    <label className="block font-poppins text-sm mb-1">Phone</label>
+                    <label className="block font-poppins text-sm mb-1">Phone <span className="text-red-500">*</span></label>
                     <input
                       required
                       className="w-full border font-poppins rounded px-3 py-2 text-sm"

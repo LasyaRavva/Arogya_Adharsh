@@ -45,6 +45,30 @@ const parseApiResponse = async (response, htmlFallbackMessage) => {
   }
 };
 
+const RequiredField = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  wrapperClassName = '',
+  inputClassName = '',
+  type = 'text',
+}) => (
+  <div className={wrapperClassName}>
+    <label className="mb-1 block text-sm font-medium text-gray-700">
+      {label} <span className="text-red-500">*</span>
+    </label>
+    <input
+      required
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      className={`w-full border border-gray-300 rounded px-3 py-2 ${inputClassName}`.trim()}
+    />
+  </div>
+);
+
 const loadRazorpayScript = () =>
   new Promise((resolve, reject) => {
     if (window.Razorpay) {
@@ -594,17 +618,76 @@ export default function Address() {
               {editAddressId ? 'Edit Address' : 'Add Address'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <input value={newAddress.firstName} onChange={(e) => setNewAddress((p) => ({ ...p, firstName: e.target.value }))} placeholder="First Name" className="border border-gray-300 rounded px-3 py-2" />
-              <input value={newAddress.lastName} onChange={(e) => setNewAddress((p) => ({ ...p, lastName: e.target.value }))} placeholder="Last Name" className="border border-gray-300 rounded px-3 py-2" />
-              <input value={newAddress.company} onChange={(e) => setNewAddress((p) => ({ ...p, company: e.target.value }))} placeholder="Company Name" className="border border-gray-300 rounded px-3 py-2" />
-              <input value={newAddress.email} onChange={(e) => setNewAddress((p) => ({ ...p, email: e.target.value }))} placeholder="Email" className="border border-gray-300 rounded px-3 py-2" />
-              <input value={newAddress.phone} onChange={(e) => setNewAddress((p) => ({ ...p, phone: e.target.value }))} placeholder="Phone" className="border border-gray-300 rounded px-3 py-2" />
-              <input value={newAddress.country} onChange={(e) => setNewAddress((p) => ({ ...p, country: e.target.value }))} placeholder="Country" className="border border-gray-300 rounded px-3 py-2" />
-              <input value={newAddress.street} onChange={(e) => setNewAddress((p) => ({ ...p, street: e.target.value }))} placeholder="Address Line 1" className="border border-gray-300 rounded px-3 py-2 md:col-span-2" />
-              <input value={newAddress.addressLine2} onChange={(e) => setNewAddress((p) => ({ ...p, addressLine2: e.target.value }))} placeholder="Address Line 2" className="border border-gray-300 rounded px-3 py-2 md:col-span-2" />
-              <input value={newAddress.city} onChange={(e) => setNewAddress((p) => ({ ...p, city: e.target.value }))} placeholder="City" className="border border-gray-300 rounded px-3 py-2" />
-              <input value={newAddress.state} onChange={(e) => setNewAddress((p) => ({ ...p, state: e.target.value }))} placeholder="State" className="border border-gray-300 rounded px-3 py-2" />
-              <input value={newAddress.zip} onChange={(e) => setNewAddress((p) => ({ ...p, zip: e.target.value }))} placeholder="Zip / Postal Code" className="border border-gray-300 rounded px-3 py-2" />
+              <RequiredField
+                label="First Name"
+                value={newAddress.firstName}
+                onChange={(e) => setNewAddress((p) => ({ ...p, firstName: e.target.value }))}
+                placeholder="First Name"
+              />
+              <RequiredField
+                label="Last Name"
+                value={newAddress.lastName}
+                onChange={(e) => setNewAddress((p) => ({ ...p, lastName: e.target.value }))}
+                placeholder="Last Name"
+              />
+              <RequiredField
+                label="Company Name"
+                value={newAddress.company}
+                onChange={(e) => setNewAddress((p) => ({ ...p, company: e.target.value }))}
+                placeholder="Company Name"
+              />
+              <RequiredField
+                label="Email"
+                type="email"
+                value={newAddress.email}
+                onChange={(e) => setNewAddress((p) => ({ ...p, email: e.target.value }))}
+                placeholder="Email"
+              />
+              <RequiredField
+                label="Phone"
+                type="tel"
+                value={newAddress.phone}
+                onChange={(e) => setNewAddress((p) => ({ ...p, phone: e.target.value }))}
+                placeholder="Phone"
+              />
+              <RequiredField
+                label="Country"
+                value={newAddress.country}
+                onChange={(e) => setNewAddress((p) => ({ ...p, country: e.target.value }))}
+                placeholder="Country"
+              />
+              <RequiredField
+                label="Address Line 1"
+                value={newAddress.street}
+                onChange={(e) => setNewAddress((p) => ({ ...p, street: e.target.value }))}
+                placeholder="Address Line 1"
+                wrapperClassName="md:col-span-2"
+              />
+              <RequiredField
+                label="Address Line 2"
+                value={newAddress.addressLine2}
+                onChange={(e) => setNewAddress((p) => ({ ...p, addressLine2: e.target.value }))}
+                placeholder="Address Line 2"
+                wrapperClassName="md:col-span-2"
+              />
+              <RequiredField
+                label="City"
+                value={newAddress.city}
+                onChange={(e) => setNewAddress((p) => ({ ...p, city: e.target.value }))}
+                placeholder="City"
+              />
+              <RequiredField
+                label="State"
+                value={newAddress.state}
+                onChange={(e) => setNewAddress((p) => ({ ...p, state: e.target.value }))}
+                placeholder="State"
+              />
+              <RequiredField
+                label="Zip / Postal Code"
+                value={newAddress.zip}
+                onChange={(e) => setNewAddress((p) => ({ ...p, zip: e.target.value }))}
+                placeholder="Zip / Postal Code"
+              />
             </div>
 
             <div className="flex items-center gap-3 mt-4">
