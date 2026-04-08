@@ -294,7 +294,7 @@ const handleLogout = () => {
             className="flex items-center gap-2 font-semibold text-lg md:text-base lg:text-xl text-[#EBDCC3] font-poppins hover:opacity-80 transition cursor-pointer border-none bg-none p-0"
           >
             <img src={logo} alt="Arogya Adharsh" className="w-10 h-10 md:w-20 md:h-20 lg:w-20 lg:h-20" />
-            <span className="leading-none text-[#EBDCC3] text-xl">Arogya Adharsh</span>
+            <span className="leading-none text-[#EBDCC3] text-xl">Arogya Adarsh</span>
           </button>
 
           {/* Desktop Menu */}

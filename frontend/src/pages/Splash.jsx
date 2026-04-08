@@ -98,7 +98,7 @@ export default function Splash() {
         {/* Text in the middle */}
         <div className="w-full max-w-xl text-center z-20 pointer-events-none mb-4">
           <p className="text-2xl text-white mb-2 welcome-animate">Welcome to</p>
-          <h1 className="text-5xl font-bold text-white mb-3 text-animate">Arogya Adharsh</h1>
+          <h1 className="text-5xl font-bold text-white mb-3 text-animate">Arogya Adarsh</h1>
           <p className="text-gray-200 text-xl subtitle-animate">Organic Goodness</p>
         </div>
         {/* Hands at the bottom with slide-in animation */}
@@ -182,9 +182,9 @@ export default function Splash() {
           style={{ zIndex: 30, pointerEvents: 'none' }}
         />
         {/* Text directly below logo */}
-        <div className="w-full max-w-xs text-center z-20 pointer-events-none mb-2">
+        <div className="w-full max-w-xs text-center z-20 pointer-events-none mb-4 top-20 relative">
           <p className="text-base text-white mb-1 welcome-animate break-words">Welcome to</p>
-          <h1 className="text-xl font-bold text-white mb-1 text-animate break-words">Arogya Adharsh</h1>
+          <h1 className="text-xl font-bold text-white mb-1 text-animate break-words">Arogya Adarsh</h1>
           <p className="text-gray-200 text-sm subtitle-animate break-words">Organic Goodness</p>
         </div>
 
@@ -197,7 +197,7 @@ export default function Splash() {
             className="absolute"
             style={{
               left: animateHands ? 'calc(50% - 58px)' : '-120px', // perfectly touch
-              top: '40px',
+              top: '100px',
               width: '58px',
               height: 'auto',
               objectFit: 'contain',
@@ -212,7 +212,7 @@ export default function Splash() {
             className="absolute"
             style={{
               left: animateHands ? '50%' : '100vw', // perfectly touch
-              top: '40px',
+              top: '100px',
               width: '58px',
               height: 'auto',
               objectFit: 'contain',

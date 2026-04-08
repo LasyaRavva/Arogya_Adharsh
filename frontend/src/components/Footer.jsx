@@ -22,7 +22,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-4 ">
               <img src={logo} alt="Logo" className="w-12 h-12 " />
-              <span className="text-2xl font-bold font-poppins">Arogya Adharsh</span>
+              <span className="text-2xl font-bold font-poppins">Arogya Adarsh</span>
             </div>
             <p className="text-sm text-gray-400 font-poppins leading-relaxed mb-6">
               Morbi cursus porttitor enim lobortis molestie. Duis gravida turpis dui, eget bibendum magna
@@ -124,7 +124,7 @@ export default function Footer() {
           <div className="lg:col-span-1 ">
             <div className="flex flex-col items-center gap-2 mb-4">
               <img src={logo} alt="Logo" className="w-20 h-20 mb-2" />
-              <span className="text-2xl font-bold font-poppins text-center hidden md:block">Arogya Adharsh</span>
+              <span className="text-2xl font-bold font-poppins text-center hidden md:block">Arogya Adarsh</span>
             </div>
             <p className="text-sm text-gray-400 font-poppins leading-relaxed mb-3 text-center">
               Morbi cursus porttitor enim lobortis molestie. Duis gravida turpis dui, eget bibendum magna
@@ -247,7 +247,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 w-full">
             <p className="text-sm text-gray-400 font-poppins text-center w-full md:w-auto">
-              Arogya Adharsh eCommerce © 2026. All Rights Reserved
+              Arogya Adarsh eCommerce © 2026. All Rights Reserved
             </p>
             <svg width="277" height="32" viewBox="0 0 277 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto md:mx-0">
               <rect x="1" y="0.617676" width="44" height="30.7647" rx="4.79412" fill="#1A1A1A" stroke="#333333"/>

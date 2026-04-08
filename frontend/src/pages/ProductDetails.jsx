@@ -859,7 +859,7 @@ if (!selectedVariant) return <div>No variant found for this product.</div>;
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {relatedProducts.map((relatedProduct) => (
                 <div 
                   // key={relatedProduct.id} 
@@ -933,6 +933,74 @@ if (!selectedVariant) return <div>No variant found for this product.</div>;
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                         </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="sm:hidden flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-4 px-2">
+              {relatedProducts.map((relatedProduct) => (
+                <div
+                  key={`mobile-${relatedProduct.pro_id}`}
+                  onClick={() => {
+                    navigate(`/product/${relatedProduct.pro_id}`);
+                    window.scrollTo(0, 0);
+                  }}
+                  className="w-[130px] bg-white rounded-lg border border-gray-300 overflow-hidden hover:shadow-lg transition cursor-pointer group flex-shrink-0"
+                >
+                  <div className="aspect-square w-full overflow-hidden bg-gray-50 relative">
+                    <img
+                      src={resolveImageUrl(relatedProduct.image_1 || relatedProduct.image_url || relatedProduct.image_2 || relatedProduct.image_3)}
+                      alt={relatedProduct.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <img
+                      src={featureProduct}
+                      alt="Frame"
+                      className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    />
+                  </div>
+                  <div className="p-2">
+                    <h3 className="font-semibold font-poppins text-gray-900 mb-1 text-sm line-clamp-2">
+                      {relatedProduct.name}
+                    </h3>
+                    <div className="flex items-center gap-1 mb-1">
+                      <span className="text-sm font-bold text-gray-900">
+                        {Number.isFinite(Number(relatedProduct.price ?? relatedProduct.product_price ?? relatedProduct.min_price))
+                          ? `${relatedProduct.currency_code || selectedCountry?.currency_code || 'INR'} ${Number(relatedProduct.price ?? relatedProduct.product_price ?? relatedProduct.min_price).toFixed(2)}`
+                          : 'N/A'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-[4px]">
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <svg
+                            key={star}
+                            className={`w-3 h-3 ${star <= Math.max(0, Math.min(5, Math.round(Number(relatedProduct.rating ?? relatedProduct.avg_rating ?? relatedProduct.average_rating ?? 0)))) ? 'fill-[#FF8A00]' : 'fill-gray-300'}`}
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                          </svg>
+                        ))}
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const cartProduct = {
+                            id: relatedProduct.pro_id || relatedProduct.id,
+                            name: relatedProduct.name,
+                            image: resolveImageUrl(relatedProduct.image_1 || relatedProduct.image_url || relatedProduct.image_2 || relatedProduct.image_3),
+                            price: Number(relatedProduct.price ?? relatedProduct.product_price ?? relatedProduct.min_price ?? 0),
+                            currency_code: relatedProduct.currency_code || selectedCountry?.currency_code || 'INR',
+                            country_id: selectedCountry?.country_id,
+                          };
+                          addToCart(cartProduct, 1);
+                        }}
+                        className="ml-auto bg-emerald-700 text-white font-poppins font-semibold text-xs py-1 px-3 rounded hover:bg-emerald-800 transition"
+                      >
+                        +
                       </button>
                     </div>
                   </div>

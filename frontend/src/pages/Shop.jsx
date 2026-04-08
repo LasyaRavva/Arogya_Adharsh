@@ -18,19 +18,15 @@ export default function Shop() {
   const [topOrderedProducts, setTopOrderedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [expandedMobileCategoryId, setExpandedMobileCategoryId] = useState(null);
+  const availableRatings = [5, 4, 3, 2, 1, 0];
 
-    // Compute unique ratings at the top level (not inside useMemo or useEffect)
+  function getFilterRatingValue(product) {
+    const parsed = Number(product?.avg_rating ?? product?.rating);
+    if (!Number.isFinite(parsed)) return null;
+    return Math.max(0, Math.min(5, Math.round(parsed)));
+  }
+
     const [products, setProducts] = useState([]);
-    const uniqueRatings = useMemo(() => {
-      const ratingsSet = new Set();
-      products.forEach(p => {
-        if (typeof p.rating === 'number') {
-          ratingsSet.add(Math.floor(p.rating));
-        }
-      });
-      // Sort descending for "x & up" logic
-      return Array.from(ratingsSet).sort((a, b) => b - a);
-    }, [products]);
   const [sortBy, setSortBy] = useState('Latest');
   const [currentPage, setCurrentPage] = useState(1);
   // const [selectedCategory, setSelectedCategory] = useState('All');
@@ -302,10 +298,12 @@ useEffect(() => {
     const normalizedPrice = priceObj?.price !== undefined && priceObj?.price !== null
       ? Number(priceObj.price)
       : undefined;
+    const normalizedRating = getFilterRatingValue(product);
 
     return {
       ...product,
-      price: Number.isNaN(normalizedPrice) ? undefined : normalizedPrice
+      price: Number.isNaN(normalizedPrice) ? undefined : normalizedPrice,
+      rating: normalizedRating ?? product.rating
     };
   });
   let filtered = productsWithPrice;
@@ -348,11 +346,11 @@ useEffect(() => {
     // Rating filter
     if (appliedRatings.length > 0) {
       filtered = filtered.filter(product => {
-        // If rating is not present, skip rating filter
-        if (typeof product.rating !== 'number') return true;
+        const numericRating = getFilterRatingValue(product);
+        if (numericRating === null) return false;
         return appliedRatings.some(selectedRating => {
-          const ratingNum = parseFloat(selectedRating);
-          return product.rating >= ratingNum;
+          const ratingNum = Number(selectedRating);
+          return Number.isFinite(ratingNum) && numericRating === ratingNum;
         });
       });
     }
@@ -574,7 +572,7 @@ useEffect(() => {
                   }
                   setCurrentPage(1);
                 }}
-                availableRatings={uniqueRatings}
+                availableRatings={availableRatings}
                 saleProducts={topOrderedProducts}
               />
             </div>
@@ -606,14 +604,14 @@ useEffect(() => {
           {/* Sidebar - Hidden on mobile */}
           <aside className="hidden lg:block lg:sticky lg:top-8 lg:self-start">
             {/* <Sidebar onApplyFilters={handleApplyFilters} /> */}
-            <Sidebar
+              <Sidebar
               onApplyFilters={(payload = {}) => {
                 if (Object.prototype.hasOwnProperty.call(payload, 'category')) {
                   setSelectedCategory(payload.category);
                 }
                 setCurrentPage(1);
               }}
-              availableRatings={uniqueRatings}
+              availableRatings={availableRatings}
               saleProducts={topOrderedProducts}
             />
           </aside>
@@ -645,7 +643,7 @@ useEffect(() => {
                   ) : null}
                   {appliedRatings.map(rating => (
                     <span key={rating} className="inline-flex items-center gap-1 bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      {rating} & up
+                      {rating} Star{Number(rating) === 1 ? '' : 's'}
                       <button 
                         onClick={() => clearRatingFilter(rating)}
                         className="ml-1 hover:text-green-600"

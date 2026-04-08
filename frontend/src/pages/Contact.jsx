@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { API_BASE_URL } from '../config';
+import { CountryContext } from '../context/CountryContext';
 
 export default function Contact() {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [name, setName] = useState('');
+  const [phoneCountryId, setPhoneCountryId] = useState('');
+  const { countries, selectedCountry } = useContext(CountryContext);
+
+  useEffect(() => {
+    if (!countries.length) return;
+
+    setPhoneCountryId((current) => {
+      if (current) return current;
+      return String(selectedCountry?.country_id || countries[0].country_id);
+    });
+  }, [countries, selectedCountry]);
 
   // const handleCommentSubmit = (e) => {
   //   e.preventDefault();
@@ -102,8 +114,20 @@ export default function Contact() {
                     placeholder="Projectile helps you"
                     className="flex-1 bg-transparent border border-white/30 text-white placeholder:text-white/60 rounded-full px-4 py-3 text-sm md:text-base outline-none"
                   />
-                  <select className="bg-[#EAD8B5] text-[#0B5F3F] rounded-full px-4 py-3 text-xs md:text-sm font-semibold outline-none min-w-[60px]">
-                    <option>IN</option>
+                  <select
+                    value={phoneCountryId}
+                    onChange={(e) => setPhoneCountryId(e.target.value)}
+                    className="bg-[#EAD8B5] text-[#0B5F3F] rounded-full px-4 py-3 text-xs md:text-sm font-semibold outline-none min-w-[80px]"
+                  >
+                    {countries.length === 0 ? (
+                      <option value="">Loading...</option>
+                    ) : (
+                      countries.map((country) => (
+                        <option key={country.country_id} value={country.country_id}>
+                          {country.code}
+                        </option>
+                      ))
+                    )}
                   </select>
                 </div>
               </div>

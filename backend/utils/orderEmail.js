@@ -191,7 +191,7 @@ const sendOrderEmail = async ({ customer, order, items, address, mailType }) => 
     return { skipped: true, reason: 'Missing EMAIL_USER sender configuration' };
   }
 
-  const fromHeader = `Arogya Adharsh Admin <${adminSender}>`;
+  const fromHeader = `Arogya Adarsh Admin <${adminSender}>`;
   const replyToHeader = isAdminNotification
     ? (customerEmail ? `${customerName} <${customerEmail}>` : undefined)
     : getAdminMailbox();

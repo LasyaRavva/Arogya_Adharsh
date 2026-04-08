@@ -3,8 +3,8 @@ import { useFilter } from '../context/FilterContext';
 import { useCategory } from '../context/CategoryContext';
 import { API_BASE_URL } from '../config';
 
-// Accept availableRatings as a prop, fallback to [5,4,3,2,1] if not provided
-export default function Sidebar({ onApplyFilters, availableRatings = [5,4,3,2,1], saleProducts = [] }) {
+// Accept availableRatings as a prop, fallback to [5,4,3,2,1,0] if not provided
+export default function Sidebar({ onApplyFilters, availableRatings = [5,4,3,2,1,0], saleProducts = [] }) {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(true);
   const [isPriceOpen, setIsPriceOpen] = useState(true);
   const [isRatingOpen, setIsRatingOpen] = useState(true);
@@ -88,10 +88,10 @@ export default function Sidebar({ onApplyFilters, availableRatings = [5,4,3,2,1]
   };
 
 
-  // Generate ratings dynamically from availableRatings
+  // Generate exact rating buckets from availableRatings
   const ratings = availableRatings.map(r => ({
     value: r.toString(),
-    label: `${r}.0 & up`
+    label: `${r} Star${r === 1 ? '' : 's'}`
   }));
 
   const tags = ['Healthy', 'Low fat', 'Vegetarian', 'Kid foods', 'Vitamins', 'Bread'];

@@ -766,7 +766,7 @@ useEffect(() => {
           ))}
         </div>
         {/* Mobile Carousel */}
-        <div className="sm:hidden flex gap-4 overflow-x-auto scroll-smooth pb-4 px-2">
+        <div className="sm:hidden flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-4 px-2">
           {recentProducts.map((product) => (
             <div
               key={product.pro_id}
@@ -907,7 +907,7 @@ useEffect(() => {
     </div>
 
     {/* ================= MOBILE CAROUSEL (NEW) ================= */}
-    <div className="sm:hidden flex gap-4 overflow-x-auto scroll-smooth rtl">
+    <div className="sm:hidden flex gap-4 overflow-x-auto scroll-smooth no-scrollbar rtl">
       {isTopFeaturedReady && featuredProducts[activeTab].map((product) => (
         <div
           key={product.id}

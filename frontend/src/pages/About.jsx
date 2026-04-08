@@ -249,7 +249,7 @@ We carefully curate and deliver a wide range of premium organic and natural prod
                   transition={{ delay: 0.2, duration: 0.8, type: "spring", stiffness: 80 }}
                   viewport={{ once: true }}
                 >
-                 At Arogya Adarsh, we believe that good health starts with good food. That’s why we focus on quality sourcing, minimal processing, and maintaining the natural integrity of every product we offer.
+                 
                 </motion.p>
               </motion.div>
 
@@ -437,7 +437,7 @@ We carefully curate and deliver a wide range of premium organic and natural prod
                   transition={{ delay: 0.15, duration: 0.8, type: "spring", stiffness: 80 }}
                   viewport={{ once: true }}
                 >
-                  Whether you are embracing a healthier lifestyle or looking for trusted everyday essentials, Arogya Adarsh is your partner in wellness — delivering purity, tradition, and nutrition in every pack.                </motion.p>
+                           </motion.p>
               </div>
 
               {/* Check list */}
@@ -527,11 +527,6 @@ We carefully curate and deliver a wide range of premium organic and natural prod
                    	Millets – Nutritious ancient grains for a balanced lifestyle 
                   </p>
                 </div>
-
-
-
-
-
                  <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 mt-1">
                     <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -542,10 +537,6 @@ We carefully curate and deliver a wide range of premium organic and natural prod
                    	Premium Dates & Dry Fruits – Premium quality for energy and wellness 
                   </p>
                 </div>
-
-
-
-
 
                  <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 mt-1">
@@ -559,6 +550,7 @@ We carefully curate and deliver a wide range of premium organic and natural prod
                 </div>
 
               </div>
+              
 
               {/* Shop Now Button */}
               <div>
@@ -571,8 +563,26 @@ We carefully curate and deliver a wide range of premium organic and natural prod
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                   </svg>
                 </Link>
+                
+                
               </div>
+
+              <section>
+                <p className="text-gray-700 font-poppins text-base">
+                At Arogya Adarsh, we believe that good health starts with good food. That&apos;s why we focus on quality sourcing, minimal processing, and maintaining the natural integrity of every product we offer.  
+                </p>
+                
+              </section>
+
+              <section>
+                <p className="text-gray-700 font-poppins text-base">
+                Whether you are embracing a healthier lifestyle or looking for trusted everyday essentials, Arogya Adarsh is your partner in wellness, delivering purity, tradition, and nutrition in every pack.       
+                </p>
+                
+              </section>
+              
             </div>
+            
 
             {/* Right Image */}
             <motion.div
@@ -599,6 +609,7 @@ We carefully curate and deliver a wide range of premium organic and natural prod
           </div>
         </div>
       </div>
+      
 
 
 <section className="py-16 ">
