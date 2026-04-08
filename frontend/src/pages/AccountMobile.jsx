@@ -305,7 +305,6 @@ export default function AccountMobile() {
     if (
       !newAddress.firstName.trim() ||
       !newAddress.lastName.trim() ||
-      !newAddress.company.trim() ||
       !newAddress.street.trim() ||
       !newAddress.addressLine2.trim() ||
       !newAddress.city.trim() ||
@@ -315,7 +314,7 @@ export default function AccountMobile() {
       !newAddress.email.trim() ||
       !newAddress.phone.trim()
     ) {
-      alert('All address fields are required.');
+      alert('Please fill in all required address fields.');
       return;
     }
 
@@ -837,9 +836,9 @@ export default function AccountMobile() {
                 </div>
 
                 <div>
-                  <label className="block  font-poppins text-sm mb-1">Company <span className="text-red-500">*</span></label>
+                  <label className="block  font-poppins text-sm mb-1">Company</label>
                   <input
-                    required
+                    
                     className="w-full border  font-poppins rounded px-3 py-2 text-sm"
                     value={newAddress.company}
                     onChange={e => setNewAddress({ ...newAddress, company: e.target.value })}

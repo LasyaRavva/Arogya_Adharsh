@@ -295,7 +295,6 @@ export default function Account() {
     if (
       !newAddress.firstName.trim() ||
       !newAddress.lastName.trim() ||
-      !newAddress.company.trim() ||
       !newAddress.street.trim() ||
       !newAddress.addressLine2.trim() ||
       !newAddress.city.trim() ||
@@ -305,7 +304,7 @@ export default function Account() {
       !newAddress.email.trim() ||
       !newAddress.phone.trim()
     ) {
-      alert('All address fields are required.');
+      alert('Please fill in all required address fields.');
       return;
     }
 
@@ -731,8 +730,8 @@ export default function Account() {
                     <input required className="w-full border rounded px-3 py-2 font-poppins" value={newAddress.lastName} onChange={e => setNewAddress({...newAddress, lastName: e.target.value})} />
                   </div>
                   <div>
-                    <label className="block mb-1">Company Name <span className="text-red-500">*</span></label>
-                    <input required className="w-full border rounded px-3 py-2 font-poppins" value={newAddress.company} onChange={e => setNewAddress({...newAddress, company: e.target.value})} />
+                    <label className="block mb-1">Company Name</label>
+                    <input className="w-full border rounded px-3 py-2 font-poppins" value={newAddress.company} onChange={e => setNewAddress({...newAddress, company: e.target.value})} />
                   </div>
                 </div>
                 <div className="mb-4">
