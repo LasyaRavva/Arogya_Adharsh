@@ -1,7 +1,7 @@
 
 import useIsMobile from './hooks/useIsMobile';
 // src/App.jsx
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { FilterProvider } from './context/FilterContext';
@@ -28,6 +28,19 @@ import Notification from './components/Notification';
 import WishlistNotification from './components/WishlistNotification';
 import Splash from './pages/Splash';
 
+function ProtectedRoute({ children }) {
+  const location = useLocation();
+  const isAuthenticated = Boolean(
+    localStorage.getItem('token') && localStorage.getItem('customer')
+  );
+
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace state={{ from: location.pathname }} />;
+  }
+
+  return children;
+}
+
 function AppContent() {
   const location = useLocation();
   const hideNavAndFooter = ['/signin', '/signup', '/'].includes(location.pathname);
@@ -46,13 +59,27 @@ function AppContent() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/address" element={<Address />} />
+        <Route
+          path="/address"
+          element={(
+            <ProtectedRoute>
+              <Address />
+            </ProtectedRoute>
+          )}
+        />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id" element={<BlogDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/account" element={isMobile ? <AccountMobile /> : <Account />} />
+        <Route
+          path="/account"
+          element={(
+            <ProtectedRoute>
+              {isMobile ? <AccountMobile /> : <Account />}
+            </ProtectedRoute>
+          )}
+        />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>

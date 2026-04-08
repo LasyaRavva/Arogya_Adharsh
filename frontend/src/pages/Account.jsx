@@ -1,7 +1,7 @@
+
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
-import avatarImage from '../assets/customer1.jpg';
 import organicoil from '../assets/organic oil.jpg';
 import { API_BASE_URL } from '../config';  
 
@@ -12,11 +12,41 @@ const resolveMediaSrc = (value, fallback = organicoil) => {
   return `${API_BASE_URL}/${String(value).replace(/^\/+/, '')}`;
 };
 
+const parseStoredCustomer = () => {
+  try {
+    const rawCustomer = localStorage.getItem('customer');
+    return rawCustomer ? JSON.parse(rawCustomer) : null;
+  } catch {
+    return null;
+  }
+};
+
+const parseStoredProfile = () => {
+  try {
+    const rawProfile = localStorage.getItem('profileData');
+    return rawProfile ? JSON.parse(rawProfile) : {};
+  } catch {
+    return {};
+  }
+};
+
+const buildProfileFromCustomer = (customer) => {
+  const rawName = String(customer?.name || '').trim();
+  const nameParts = rawName ? rawName.split(/\s+/) : [];
+
+  return {
+    firstName: nameParts[0] || '',
+    lastName: nameParts.slice(1).join(' '),
+    email: String(customer?.email || ''),
+    phone: String(customer?.phone || ''),
+  };
+};
+
 export default function Account() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const [activeTab, setActiveTab] = useState('orders');
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => parseStoredCustomer());
   const [expandedOrder, setExpandedOrder] = useState(null);
   const [ratingSidebar, setRatingSidebar] = useState({ open: false, order: null });
   const [deliveryRating, setDeliveryRating] = useState(0);
@@ -54,12 +84,17 @@ export default function Account() {
 
   const [orders, setOrders] = useState([]);
 
-  const [profileData, setProfileData] = useState({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john@example.com',
-    phone: '+91 9567438291',
-    profileImage: avatarImage
+  const [profileData, setProfileData] = useState(() => {
+    const storedCustomer = parseStoredCustomer();
+    const storedProfile = parseStoredProfile();
+    const customerProfile = buildProfileFromCustomer(storedCustomer);
+
+    return {
+      firstName: storedProfile.firstName || customerProfile.firstName,
+      lastName: customerProfile.lastName || '',
+      email: storedProfile.email || customerProfile.email,
+      phone: customerProfile.phone || '',
+    };
   });
 
   const [addresses, setAddresses] = useState([]);
@@ -79,9 +114,9 @@ export default function Account() {
         setProfileData((prev) => ({
           ...prev,
           firstName: firstFromUser || prev.firstName,
-          lastName: lastFromUser || prev.lastName,
+          lastName: lastFromUser,
           email: customer?.email || prev.email,
-          phone: customer?.phone || prev.phone,
+          phone: customer?.phone || '',
         }));
       } catch (error) {
         console.error('Error parsing customer data:', error);
@@ -253,10 +288,10 @@ export default function Account() {
 
           setProfileData((prev) => ({
             ...prev,
-            firstName: defaultAddress.firstName || prev.firstName,
-            lastName: defaultAddress.lastName || prev.lastName,
-            email: defaultAddress.email || prev.email,
-            phone: defaultAddress.phone || prev.phone,
+            firstName: prev.firstName || defaultAddress.firstName || '',
+            lastName: prev.lastName || '',
+            email: prev.email || defaultAddress.email || '',
+            phone: prev.phone || '',
           }));
         }
       } catch (error) {
@@ -449,23 +484,35 @@ export default function Account() {
   };
 
   const getInitials = () => {
+    const liveFullName = `${profileData.firstName || ''} ${profileData.lastName || ''}`.trim();
+    if (liveFullName) {
+      return liveFullName.charAt(0).toUpperCase();
+    }
     if (user?.name) {
       return user.name.charAt(0).toUpperCase();
     }
-    return profileData.firstName.charAt(0).toUpperCase();
+    return 'U';
   };
 
   const handleProfileSave = () => {
-    const fullName = `${profileData.firstName} ${profileData.lastName}`.trim();
+    const normalizedProfile = {
+      firstName: String(profileData.firstName || '').trim(),
+      lastName: String(profileData.lastName || '').trim(),
+      email: String(profileData.email || '').trim(),
+      phone: String(profileData.phone || '').trim(),
+    };
+    const fullName = `${normalizedProfile.firstName} ${normalizedProfile.lastName}`.trim();
+    setProfileData((prev) => ({ ...prev, ...normalizedProfile }));
 
     const updatedCustomer = {
       ...(user || {}),
-      name: fullName || user?.name || profileData.firstName,
-      email: profileData.email,
-      phone: profileData.phone,
+      name: fullName || user?.name || normalizedProfile.firstName,
+      email: normalizedProfile.email,
+      phone: normalizedProfile.phone,
     };
 
     setUser(updatedCustomer);
+    localStorage.setItem('profileData', JSON.stringify(normalizedProfile));
     localStorage.setItem('customer', JSON.stringify(updatedCustomer));
     window.dispatchEvent(new Event('auth-changed'));
     alert('Profile updated successfully!');
@@ -993,7 +1040,7 @@ export default function Account() {
               </div>
               <div>
                 <p className="font-bold font-poppins text-gray-900">{`${profileData.firstName} ${profileData.lastName}`.trim() || user?.name || profileData.firstName}</p>
-                <p className="text-sm font-poppins text-gray-500">{profileData.phone || user?.phone}</p>
+                <p className="text-sm font-poppins text-gray-500">{profileData.phone || ''}</p>
               </div>
             </div>
 

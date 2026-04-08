@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { API_BASE_URL } from '../config';
 import { CountryContext } from '../context/CountryContext';
 
+const CONTACT_MAP_URL = 'https://www.google.com/maps/place/Level-Up+Drive-in/@17.4543866,78.2985895,3a,32.8y,149.35h,106.22t/data=!3m7!1e1!3m5!1stUY4Z_2nWAOWRjjvKnLmew!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-16.217699115064832%26panoid%3DtUY4Z_2nWAOWRjjvKnLmew%26yaw%3D149.35339800563403!7i16384!8i8192!4m14!1m7!3m6!1s0x3bcb93f14418e7ef:0xf38bb08bf0a2d9f0!2sLevel-Up+Drive-in!8m2!3d17.454249!4d78.2983664!16s%2Fg%2F11twhz4nsk!3m5!1s0x3bcb93f14418e7ef:0xf38bb08bf0a2d9f0!8m2!3d17.454249!4d78.2983664!16s%2Fg%2F11twhz4nsk?entry=ttu&g_ep=EgoyMDI2MDQwNS4wIKXMDSoASAFQAw%3D%3D';
+const CONTACT_MAP_EMBED_URL = 'https://www.google.com/maps?q=17.454249,78.2983664&z=17&output=embed';
+
 export default function Contact() {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
@@ -155,24 +158,29 @@ export default function Contact() {
           <div className="space-y-6 md:space-y-8 lg:space-y-14">
             <div>
               <h2 className="text-base md:text-lg font-semibold text-gray-900 font-poppins mb-3 md:mb-4">
-                Projectile helps
+                Address
               </h2>
-              <p className="text-gray-600 font-poppins text-sm md:text-base leading-relaxed">
-                Pellentesque eu nibh eget mauris congue mattis mattis nec tellus. 
-                Phasellus imperdiet elit eu magna dictum, bibendum cursus
-              </p>
-            </div>
+            
 
             <div className="space-y-2 md:space-y-3 text-sm md:text-base text-gray-700 font-poppins">
-              <p>999XXXXXXXX</p>
-              <p>lorem@gmail.com</p>
-              <p>Monday to Friday 09:00 AM to 06:00 PM</p>
+              <p><span className="font-bold">Mobile Number:  </span>+91 85198 14763</p>
+              <p><span className="font-bold">Address:   </span>Level up Drive-in, Survey # 289 Opposite to VAJRAM ASTER HOME, Gopanapalli, near Honor Vivanta, Tanda, Serilingampalle (M), Hyderabad, Telangana 500046</p>
+              <p><span className="font-bold">Operating Hours: </span>Monday to Friday 09:00 AM to 06:00 PM</p>
+              <a
+                href={CONTACT_MAP_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center text-[#007048] font-semibold hover:text-[#005a3c] transition"
+              >
+                Open in Google Maps
+              </a>
             </div>
+          </div>
 
             <div className="rounded-xl overflow-hidden shadow-lg">
               <iframe
-                title="Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.885050846934!2d77.59456297518512!3d12.971598790855273!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c4e0f3b9%3A0x9194e5a2b2f0b19!2sMG%20Road%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1708430000000!5m2!1sen!2sin"
+                title="Level Up Drive-in map"
+                src={CONTACT_MAP_EMBED_URL}
                 width="100%"
                 height="180"
                 className="md:h-[230px] lg:h-[320px]"  // smaller on tablet/small desktop

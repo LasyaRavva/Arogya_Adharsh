@@ -24,7 +24,7 @@ export default function AccountMobile() {
   const [showProfile, setShowProfile] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSuggestProducts, setShowSuggestProducts] = useState(false);
-  const [user] = useState(() => {
+  const [user, setUser] = useState(() => {
     try {
       const customerData = localStorage.getItem('customer');
       return customerData ? JSON.parse(customerData) : null;
@@ -96,9 +96,9 @@ export default function AccountMobile() {
       ...defaultProfile,
       ...storedProfile,
       firstName: storedProfile.firstName || firstFromUser || '',
-      lastName: storedProfile.lastName || lastFromUser || '',
+      lastName: lastFromUser || '',
       email: storedProfile.email || user?.email || '',
-      phone: storedProfile.phone || user?.phone || '',
+      phone: user?.phone || '',
     };
     // profileImage: avatarImage // optional - can add later
   });
@@ -263,10 +263,10 @@ export default function AccountMobile() {
 
           setProfileData((prev) => ({
             ...prev,
-            firstName: defaultAddress.firstName || prev.firstName,
-            lastName: defaultAddress.lastName || prev.lastName,
-            email: defaultAddress.email || prev.email,
-            phone: defaultAddress.phone || prev.phone,
+            firstName: prev.firstName || defaultAddress.firstName || '',
+            lastName: prev.lastName || '',
+            email: prev.email || defaultAddress.email || '',
+            phone: prev.phone || '',
           }));
         }
       } catch (error) {
@@ -1014,7 +1014,7 @@ export default function AccountMobile() {
                 <label className="block text-sm font-poppins font-medium text-gray-700 mb-1.5">First Name</label>
                 <input
                   type="text"
-                  value={primaryAddress?.firstName || profileData.firstName}
+                  value={profileData.firstName}
                   onChange={(e) => setProfileData({ ...profileData, firstName: e.target.value })}
                   className="w-full border font-poppins border-gray-300 rounded-lg px-4 py-3 text-base outline-none focus:border-[#007048] focus:ring-1 focus:ring-[#007048]"
                 />
@@ -1024,7 +1024,7 @@ export default function AccountMobile() {
                 <label className="block text-sm font-medium font-poppins text-gray-700 mb-1.5">Last Name</label>
                 <input
                   type="text"
-                  value={primaryAddress?.lastName || profileData.lastName}
+                  value={profileData.lastName}
                   onChange={(e) => setProfileData({ ...profileData, lastName: e.target.value })}
                   className="w-full border font-poppins border-gray-300 rounded-lg px-4 py-3 text-base outline-none focus:border-[#007048] focus:ring-1 focus:ring-[#007048]"
                 />
@@ -1034,7 +1034,7 @@ export default function AccountMobile() {
                 <label className="block text-sm font-medium font-poppins text-gray-700 mb-1.5">Email</label>
                 <input
                   type="email"
-                  value={primaryAddress?.email || profileData.email}
+                  value={profileData.email}
                   onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
                   className="w-full border font-poppins border-gray-300 rounded-lg px-4 py-3 text-base outline-none focus:border-[#007048] focus:ring-1 focus:ring-[#007048]"
                 />
@@ -1044,7 +1044,7 @@ export default function AccountMobile() {
                 <label className="block text-sm font-medium font-poppins text-gray-700 mb-1.5">Phone</label>
                 <input
                   type="tel"
-                  value={primaryAddress?.phone || profileData.phone}
+                  value={profileData.phone}
                   onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
                   className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base font-poppins outline-none focus:border-[#007048] focus:ring-1 focus:ring-[#007048]"
                 />
@@ -1053,10 +1053,26 @@ export default function AccountMobile() {
 
             <button
               onClick={() => {
-                // Here you can add real save logic (API call, context, etc.)
+                const normalizedProfile = {
+                  firstName: String(profileData.firstName || '').trim(),
+                  lastName: String(profileData.lastName || '').trim(),
+                  email: String(profileData.email || '').trim(),
+                  phone: String(profileData.phone || '').trim(),
+                };
+                const fullName = `${normalizedProfile.firstName} ${normalizedProfile.lastName}`.trim();
+                const updatedCustomer = {
+                  ...(user || {}),
+                  name: fullName || user?.name || normalizedProfile.firstName,
+                  email: normalizedProfile.email,
+                  phone: normalizedProfile.phone,
+                };
+
+                setProfileData((prev) => ({ ...prev, ...normalizedProfile }));
+                setUser(updatedCustomer);
+                localStorage.setItem('profileData', JSON.stringify(normalizedProfile));
+                localStorage.setItem('customer', JSON.stringify(updatedCustomer));
+                window.dispatchEvent(new Event('auth-changed'));
                 alert('Profile updated successfully!');
-                // Optional: persist to localStorage if needed
-                localStorage.setItem('profileData', JSON.stringify(profileData));
               }}
               className="w-full bg-[#007048] font-poppins text-white py-3.5 rounded-lg font-medium mt-8 active:bg-[#005a3c] transition"
             >
@@ -1077,11 +1093,11 @@ export default function AccountMobile() {
   // ────────────────────────────────────────────────
   // Main Account Screen
   // ────────────────────────────────────────────────
-  const displayFirstName = (primaryAddress?.firstName || profileData.firstName || '').trim();
-  const displayLastName = (primaryAddress?.lastName || profileData.lastName || '').trim();
+  const displayFirstName = (profileData.firstName || primaryAddress?.firstName || '').trim();
+  const displayLastName = (profileData.lastName || primaryAddress?.lastName || '').trim();
   const fallbackName = String(user?.name || '').trim();
   const displayName = [displayFirstName, displayLastName].filter(Boolean).join(' ') || fallbackName || 'Guest';
-  const displayPhone = primaryAddress?.phone || profileData.phone || user?.phone || '';
+  const displayPhone = profileData.phone || '';
   const avatarLetter = displayName.charAt(0).toUpperCase() || 'G';
 
   return (

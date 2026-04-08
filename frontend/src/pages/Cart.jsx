@@ -292,8 +292,8 @@ export default function Cart() {
               <div className="mb-6">
                 <h3 className="text-xl font-bold font-poppins text-gray-900 mb-4">Payment Method</h3>
                 <div className="space-y-3">
-                  {/* Cash On Delivery */}
-                  <label className="flex items-center gap-3 cursor-pointer">
+                  {/* Cash On Delivery (disabled) */}
+                  {/* <label className="flex items-center gap-3 cursor-pointer">
                     <input
                       type="radio"
                       name="payment"
@@ -303,7 +303,7 @@ export default function Cart() {
                       className="w-5 h-5 text-[#00B207] focus:ring-[#00B207] accent-[#007048]"
                     />
                     <span className="font-poppins text-gray-900 font-medium">Cash On Delivery</span>
-                  </label>
+                  </label> */}
 
 
 

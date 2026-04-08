@@ -244,11 +244,12 @@ router.post('/', authenticate, async (req, res) => {
 
   const paymentMethod = String(shipping_carrier || '').toUpperCase();
   const isCod = paymentMethod === 'CASH ON DELIVERY';
+  if (isCod) {
+    return res.status(400).json({ error: 'Cash on delivery is no longer available.' });
+  }
   const allowedPaymentStatuses = ['PAID', 'UNPAID'];
   const requestedPaymentStatus = String(payment_status || '').toUpperCase();
-  const normalizedPaymentStatus = isCod
-    ? 'UNPAID'
-    : (requestedPaymentStatus || 'PAID');
+  const normalizedPaymentStatus = requestedPaymentStatus || 'PAID';
 
   const initialOrderStatus = 'CONFIRMED';
   if (!allowedPaymentStatuses.includes(normalizedPaymentStatus)) {

@@ -4,9 +4,40 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/database');
 
+const authenticate = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Authorization token required' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid or expired token' });
+  }
+};
+
+const ensureCustomerProfileColumns = async () => {
+  await pool.query(`
+    ALTER TABLE adharsh.customers
+    ADD COLUMN IF NOT EXISTS phone character varying(30)
+  `);
+
+  await pool.query(`
+    ALTER TABLE adharsh.customer_addresses
+    ADD COLUMN IF NOT EXISTS phone character varying(30)
+  `);
+};
+
 // Sign Up
 router.post('/signup', async (req, res) => {
   try {
+    await ensureCustomerProfileColumns();
     const { name, email, password } = req.body;
 
     // Validation
@@ -30,7 +61,7 @@ router.post('/signup', async (req, res) => {
 
     // Insert customer
     const result = await pool.query(
-      'INSERT INTO adharsh.customers (name, email, password_hash) VALUES ($1, $2, $3) RETURNING cus_id, name, email, created_at',
+      'INSERT INTO adharsh.customers (name, email, password_hash) VALUES ($1, $2, $3) RETURNING cus_id, name, email, phone, created_at',
       [name, email, password_hash]
     );
 
@@ -50,6 +81,7 @@ router.post('/signup', async (req, res) => {
         cus_id: customer.cus_id,
         name: customer.name,
         email: customer.email,
+        phone: customer.phone || '',
         created_at: customer.created_at
       }
     });
@@ -62,6 +94,7 @@ router.post('/signup', async (req, res) => {
 // Sign In
 router.post('/signin', async (req, res) => {
   try {
+    await ensureCustomerProfileColumns();
     const { email, password } = req.body;
 
     // Validation
@@ -101,12 +134,110 @@ router.post('/signin', async (req, res) => {
       customer: {
         cus_id: customer.cus_id,
         name: customer.name,
-        email: customer.email
+        email: customer.email,
+        phone: customer.phone || ''
       }
     });
   } catch (error) {
     console.error('Sign in error:', error);
     res.status(500).json({ error: 'Error signing in' });
+  }
+});
+
+router.get('/me', authenticate, async (req, res) => {
+  try {
+    await ensureCustomerProfileColumns();
+
+    const result = await pool.query(
+      `
+      SELECT
+        c.cus_id,
+        c.name,
+        c.email,
+        COALESCE(NULLIF(TRIM(c.phone), ''), NULLIF(TRIM(addr.phone), '')) AS phone,
+        c.created_at
+      FROM adharsh.customers c
+      LEFT JOIN LATERAL (
+        SELECT ca.phone
+        FROM adharsh.customer_addresses ca
+        WHERE ca.customer_id = c.cus_id
+        ORDER BY ca.is_default DESC, ca.created_at DESC
+        LIMIT 1
+      ) addr ON true
+      WHERE c.cus_id = $1
+      LIMIT 1
+      `,
+      [req.user.cus_id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Customer not found' });
+    }
+
+    const customer = result.rows[0];
+
+    return res.json({
+      customer: {
+        cus_id: customer.cus_id,
+        name: customer.name,
+        email: customer.email,
+        phone: customer.phone || '',
+        created_at: customer.created_at,
+      },
+    });
+  } catch (error) {
+    console.error('Fetch profile error:', error);
+    return res.status(500).json({ error: 'Error fetching profile' });
+  }
+});
+
+router.put('/profile', authenticate, async (req, res) => {
+  try {
+    await ensureCustomerProfileColumns();
+
+    const name = String(req.body?.name || '').trim();
+    const email = String(req.body?.email || '').trim();
+    const phone = String(req.body?.phone || '').trim();
+
+    if (!name || !email) {
+      return res.status(400).json({ error: 'Name and email are required' });
+    }
+
+    const emailCheck = await pool.query(
+      `
+      SELECT cus_id
+      FROM adharsh.customers
+      WHERE email = $1 AND cus_id <> $2
+      LIMIT 1
+      `,
+      [email, req.user.cus_id]
+    );
+
+    if (emailCheck.rows.length > 0) {
+      return res.status(400).json({ error: 'Email already registered' });
+    }
+
+    const result = await pool.query(
+      `
+      UPDATE adharsh.customers
+      SET name = $1, email = $2, phone = $3
+      WHERE cus_id = $4
+      RETURNING cus_id, name, email, phone, created_at
+      `,
+      [name, email, phone, req.user.cus_id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Customer not found' });
+    }
+
+    return res.json({
+      message: 'Profile updated successfully',
+      customer: result.rows[0],
+    });
+  } catch (error) {
+    console.error('Update profile error:', error);
+    return res.status(500).json({ error: 'Error updating profile' });
   }
 });
 
