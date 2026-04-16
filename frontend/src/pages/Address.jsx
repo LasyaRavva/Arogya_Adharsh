@@ -53,14 +53,14 @@ const RequiredField = ({
   wrapperClassName = '',
   inputClassName = '',
   type = 'text',
-  required = true,
+
 }) => (
   <div className={wrapperClassName}>
     <label className="mb-1 block text-sm font-medium text-gray-700">
-      {label} {required && <span className="text-red-500">*</span>}
+      {label} <span className="text-red-500">*</span>
     </label>
     <input
-      required={required}
+      required
       type={type}
       value={value}
       onChange={onChange}
@@ -250,6 +250,7 @@ export default function Address() {
     if (
       !newAddress.firstName.trim() ||
       !newAddress.lastName.trim() ||
+      !newAddress.company.trim() ||
       !newAddress.street.trim() ||
       !newAddress.addressLine2.trim() ||
       !newAddress.city.trim() ||
@@ -259,7 +260,7 @@ export default function Address() {
       !newAddress.email.trim() ||
       !newAddress.phone.trim()
     ) {
-      alert('Please fill in all required address fields.');
+      alert('All address fields are required.');
       return;
     }
 
@@ -630,7 +631,7 @@ export default function Address() {
                 onChange={(e) => setNewAddress((p) => ({ ...p, lastName: e.target.value }))}
                 placeholder="Last Name"
               />
-              <RequiredField
+               <RequiredField
                 label="Company Name"
                 value={newAddress.company}
                 onChange={(e) => setNewAddress((p) => ({ ...p, company: e.target.value }))}
@@ -780,4 +781,4 @@ export default function Address() {
       </div>
     </div>
   );
-}
+}  
